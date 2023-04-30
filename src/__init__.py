@@ -7,20 +7,12 @@ class App(Flask):
         super().__init__(*args, import_name=__name__, **kwargs)
         
         from src.infra import database
-        # from src.main import routes
-        # from src.ext import auth
+        from src.main import routes
+        from src.main import ext
         
         database.config.init_database()
-        # routes.init_app(self)
-        # auth.init_app(self)
-        
-        user = database.entities.User(
-            name='Ricardo',
-            email='ricardo@email.com',
-            password_hash=gen_hash('asdasdasdasa'),
-        )
-        
-        user.save()
+        ext.config.init_app(self)
+        routes.init_app(self)
+        ext.auth.init_app(self)
 
-        print(user)
         

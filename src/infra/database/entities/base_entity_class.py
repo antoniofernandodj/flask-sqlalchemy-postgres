@@ -17,16 +17,16 @@ class BaseEntityClass:
         from src.infra import database
         cls = type(self)
         
-        with database.session.get() as session:
+        with database.session.get() as db:
             try:
                 data = deepcopy(self.__dict__)
                 data.pop('_sa_instance_state', None)
                 object = cls(uuid=uuid4(), **data)
-                session.add(object)
-                session.commit()
-                session.refresh(object)
+                db.add(object)
+                db.commit()
+                db.refresh(object)
             except:
-                session.rollback()
+                db.rollback()
                 raise
             
     
@@ -34,27 +34,27 @@ class BaseEntityClass:
         from src.infra import database
         cls = type(self)
         
-        with database.session.get() as session:
+        with database.session.get() as db:
             try:
-                user = session.query(cls).filter_by(uuid=self.uuid).first()
+                user = db.query(cls).filter_by(uuid=self.uuid).first()
                 for key, value in kwargs.items():
                     if key != '_sa_instance_state':
                         setattr(user, key, value)
                     
-                session.commit()
+                db.commit()
             except:
-                session.rollback()
+                db.rollback()
                 raise
             
     def delete(self):
         from src.infra import database
         cls = type(self)
         
-        with database.session.get() as session:
+        with database.session.get() as db:
             try:
-                user = session.query(cls).filter_by(uuid=self.uuid).first()
-                session.delete(user)
-                session.commit()
+                user = db.query(cls).filter_by(uuid=self.uuid).first()
+                db.delete(user)
+                db.commit()
             except:
-                session.rollback()
+                db.rollback()
                 raise

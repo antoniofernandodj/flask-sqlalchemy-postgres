@@ -4,11 +4,11 @@ services:
   postgres:
     image: postgres
     volumes:
-      - flask-sqlalchemy-postgres://home/itemize/Estudo/flask-sqlalchemy/volumes
+      - ~/volumes/flask-sqlalchemy-postgres:/var/lib/postgresql/data
     env_file:
       - infra.secrets.toml
     ports:
       - "5432:5432"
 
 volumes:
- flask-sqlalchemy-postgres:
+  flask-sqlalchemy-postgres:

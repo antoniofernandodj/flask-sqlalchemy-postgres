@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 from src.infra.database.entities import BaseEntityClass
 from src.infra.database.entities import Base
 from sqlalchemy.schema import Column as Col, ForeignKey as FK
@@ -6,7 +7,7 @@ from sqlalchemy.types import (
 )
 
 
-class User(Base, BaseEntityClass):
+class User(Base, BaseEntityClass, UserMixin):
     
     __tablename__ = 'user'
     
