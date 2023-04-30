@@ -14,5 +14,3 @@ class App(Flask):
         ext.config.init_app(self)
         routes.init_app(self)
         ext.auth.init_app(self)
-
-        
