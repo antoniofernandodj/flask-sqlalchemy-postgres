@@ -13,8 +13,11 @@ def login_get():
 def login_post():
     form = request.form.to_dict()
     response = controllers.user.auth.login.handle(data=form)
-    flash(response['message'], category=response['status'])
-    return render_template('auth/login.html')
+    flash(message=response['message'], category=response['status'])
+    if response['redirect']:
+        return redirect(response['redirect'])
+
+    return redirect('/login/')
 
 @bp.get('/signin/')
 def signin_get():
@@ -24,9 +27,8 @@ def signin_get():
 def sign_post():
     form = request.form.to_dict()
     response = controllers.user.auth.signin.handle(data=form)
-    flash(response['message'], category=response['status'])
-    redirect = response['redirect']
-    if redirect:
+    flash(message=response['message'], category=response['status'])
+    if response['redirect']:
         return redirect(response['redirect'])
-    else:
-        return redirect('/signin/')
+
+    return redirect('/signin/')
